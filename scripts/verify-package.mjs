@@ -120,6 +120,13 @@ try {
     ".bin",
     process.platform === "win32" ? "google-adk-axi.cmd" : "google-adk-axi",
   );
+  const installedCliEntry = path.join(
+    installDir,
+    "node_modules",
+    packageJson.name,
+    packageJson.bin["google-adk-axi"],
+  );
+  await access(installedCliEntry);
   const cliResult = spawnSync(installedCli, ["--version"], {
     cwd: installDir,
     encoding: "utf8",
@@ -131,8 +138,17 @@ try {
   }
 
   if (cliResult.status !== 0 || cliResult.stdout.trim() !== packageJson.version) {
+    const directResult = spawnSync(process.execPath, [installedCliEntry, "--version"], {
+      cwd: installDir,
+      encoding: "utf8",
+    });
+
     throw new Error(
-      `Installed CLI smoke check failed. Expected ${packageJson.version}; received ${cliResult.stdout.trim()}.`,
+      [
+        `Installed CLI smoke check failed. Expected ${packageJson.version}.`,
+        `npm bin status: ${cliResult.status}; stdout: ${JSON.stringify(cliResult.stdout)}; stderr: ${JSON.stringify(cliResult.stderr)}.`,
+        `Direct entry status: ${directResult.status}; stdout: ${JSON.stringify(directResult.stdout)}; stderr: ${JSON.stringify(directResult.stderr)}.`,
+      ].join("\n"),
     );
   }
 
