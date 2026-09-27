@@ -8,6 +8,26 @@ Run these checks from the project directory with Node.js 22.18 or later.
 - Run `npm test` and confirm the Beta suite passes.
 - Run `npm run build:skill -- --check` and confirm the skill pointer is current.
 
+## Packaged CLI local test
+
+- Run `npm run verify:package -- --keep` and confirm the package allowlist check and installed CLI smoke check pass.
+- Confirm the versioned package tarball is written under `dist`.
+- In PowerShell, create a temporary install and point `$axi` at its installed CLI.
+
+```powershell
+$testRoot = Join-Path $env:TEMP ("google-adk-axi-local-" + [guid]::NewGuid())
+New-Item -ItemType Directory -Path $testRoot | Out-Null
+$tarball = Get-ChildItem .\dist\google-adk-axi-*.tgz | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+npm install --prefix $testRoot $tarball.FullName
+$axi = Join-Path $testRoot "node_modules\.bin\google-adk-axi.cmd"
+& $axi --version
+```
+
+- Confirm the installed command prints `0.1.0`.
+- Run `$axi projects list --root <workspace-path>` and `$axi projects inspect <project-path>` against a known ADK workspace.
+- With the ADK CLI available, run `$axi projects create axi-local-verify --root <temporary-root>` and confirm the generated project is not run until its model and authentication are configured.
+- Keep the GitHub repository private until this local package test is complete and reviewed.
+
 ## Version and home view
 
 - Run `node bin/google-adk-axi.js --version` and confirm it prints `0.1.0`.
