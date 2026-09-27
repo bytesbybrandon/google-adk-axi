@@ -1,0 +1,47 @@
+{
+  "name": "google-adk-axi",
+  "version": "0.1.0",
+  "description": "List, inspect, and create local Google ADK Python projects",
+  "author": "Brandon (bytesbybrandon)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bytesbybrandon/google-adk-axi.git"
+  },
+  "homepage": "https://github.com/bytesbybrandon/google-adk-axi#readme",
+  "bugs": {
+    "url": "https://github.com/bytesbybrandon/google-adk-axi/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "bin": {
+    "google-adk-axi": "./bin/google-adk-axi.js"
+  },
+  "scripts": {
+    "axi": "node ./bin/google-adk-axi.js",
+    "build": "tsc --project tsconfig.json",
+    "build:skill": "tsx scripts/build-skill.ts",
+    "prepare": "npm run build",
+    "test": "npm run build && node --test"
+  },
+  "files": [
+    "bin",
+    "scripts",
+    "src",
+    "README.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@toon-format/toon": "^4.1.1",
+    "axi-sdk-js": "^0.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
