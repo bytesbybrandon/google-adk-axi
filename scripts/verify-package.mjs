@@ -17,6 +17,10 @@ if (packageLock.packages?.[""]?.version !== packageJson.version) {
   throw new Error("package.json and package-lock.json versions must match.");
 }
 
+if (packageJson.bin?.["google-adk-axi"] !== "./bin/google-adk-axi.js") {
+  throw new Error("The google-adk-axi executable must target ./bin/google-adk-axi.js.");
+}
+
 for (const sourcePath of ["src/version.js", "src/version.ts"]) {
   const source = await readFile(path.join(projectRoot, sourcePath), "utf8");
   const sourceVersion = source.match(/export\s+const\s+VERSION\s*=\s*["']([^"']+)["']/)?.[1];
@@ -42,7 +46,6 @@ const allowedFiles = new Set([
   "src/domain/project.js",
   "src/domain/root-directory.js",
   "src/version.js",
-  "src/version.ts",
 ]);
 
 function runNpm(args, { capture = false, cwd = projectRoot } = {}) {

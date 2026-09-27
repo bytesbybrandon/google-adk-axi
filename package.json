@@ -23,13 +23,11 @@
     "axi": "node ./bin/google-adk-axi.js",
     "build": "tsc --project tsconfig.json",
     "build:skill": "tsx scripts/build-skill.ts",
-    "prepare": "npm run build",
     "verify:package": "npm run build && node scripts/verify-package.mjs",
     "test": "npm run build && node --test"
   },
   "files": [
     "bin/google-adk-axi.js",
-    "src/version.ts",
     "src/version.js",
     "src/cli.js",
     "src/application/create-project.js",

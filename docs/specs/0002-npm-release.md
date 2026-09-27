@@ -34,6 +34,10 @@ Exclude maintainer-only generators, repository metadata, local configuration, te
 
 The prior package dry run included `scripts/build-skill.ts`, so the package file list now enumerates only required runtime files and public documents.
 
+The launcher imports compiled JavaScript because Node does not allow TypeScript stripping for files installed under `node_modules`.
+
+The package no longer declares an automatic `prepare` build; package verification builds before packing, and consumers install the compiled runtime.
+
 The `verify:package` script builds the package, checks the tarball against an exact allowlist, installs it into a temporary consumer project, and runs the installed CLI version command.
 
 Pass `--keep` to retain the tarball under the ignored `dist` directory for local hands-on testing.
