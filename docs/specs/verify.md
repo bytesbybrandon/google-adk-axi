@@ -24,9 +24,11 @@ $axi = Join-Path $testRoot "node_modules\.bin\google-adk-axi.cmd"
 ```
 
 - Confirm the installed command prints `0.1.0`.
-- Run `$axi projects list --root <workspace-path>` and `$axi projects inspect <project-path>` against a known ADK workspace.
+- Run `& $axi projects list --root "<workspace-path>"` and `& $axi projects inspect "<project-path>"` against a known ADK workspace.
+- Confirm the list command only reads directory structure and does not execute agent code.
 - With the ADK CLI available, run `$axi projects create axi-local-verify --root <temporary-root>` and confirm the generated project is not run until its model and authentication are configured.
-- Keep the GitHub repository private until this local package test is complete and reviewed.
+- The GitHub repository is public per the user's decision.
+- Complete and review the local package check before the first npm publication.
 
 ## Version and home view
 
