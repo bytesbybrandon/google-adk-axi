@@ -62,6 +62,8 @@ Grant `id-token: write` only to the publish job and keep other workflow permissi
 
 Configure npm trusted publishing for GitHub user `bytesbybrandon`, repository `google-adk-axi`, workflow filename `npm-publish.yml`, and an optional matching `npm-production` environment.
 
+Allow the trusted publisher to run `npm publish` because this workflow publishes directly after a GitHub Release is approved.
+
 Do not use an npm publish token or publish from pull request and ordinary branch workflows.
 
 Pin GitHub Actions to reviewed full commit SHAs.
@@ -82,19 +84,15 @@ The manually published bootstrap version will not have an OIDC provenance attest
 
 ## Repository gates
 
-Require a pull request and passing CI checks before changes merge to `main` wherever the GitHub plan supports required status checks for this private repository.
+Require a pull request and passing CI checks before changes merge to `main`.
 
 Block force pushes and branch deletion on `main`.
 
 Do not require a review count until another reviewer is available.
 
-GitHub branch rulesets and protected branches require a paid plan for private repositories; public repositories have these controls on GitHub Free.
+The active `Protect main with CI` ruleset requires both Node.js checks, resolves review threads, blocks deletion, and blocks force pushes.
 
-If the current GitHub plan cannot enforce required checks while the repository is private, CI still runs but merge protection must wait until the repository is public or the plan changes.
-
-GitHub environment approval reviewers are available on GitHub Free, Pro, and Team only for public repositories.
-
-While the repository is private, publishing a GitHub Release is the maintainer's explicit release approval; environment review can be added after the repository becomes public.
+Publishing a GitHub Release is the maintainer's explicit release approval for later OIDC releases.
 
 ## Provenance and visibility
 
@@ -102,9 +100,11 @@ npm trusted publishing can authenticate releases from a private GitHub repositor
 
 npm provenance attestations require both the source repository and npm package to be public.
 
-To include provenance on the first automated OIDC release, make both the GitHub repository and npm package public before publishing that release.
+The GitHub repository is public, and the npm package must also be public before an automated OIDC release can include provenance.
 
-If the repository remains private at first publish, the package can still use OIDC publishing, but that release will not have npm provenance.
+New npm trusted publisher configurations default to allowing staged publishing, so enable direct `npm publish` for this workflow.
+
+Trusted publishing from GitHub Actions generates provenance automatically when both the repository and package are public.
 
 ## Acceptance criteria
 
@@ -119,13 +119,15 @@ If the repository remains private at first publish, the package can still use OI
 
 ## Decision record
 
-This implementation keeps the repository private and does not publish the npm package.
+The repository is public per the user's decision on 2026-09-28.
 
-The user will test the AXI locally before the repository becomes public.
+The user intended to test the AXI locally before the first npm publication.
+
+The local package check remains pending, and this implementation did not publish the npm package.
 
 The user approved implementation on 2026-09-27.
 
-The GitHub repository and npm package must be public before the first automated OIDC release to obtain provenance.
+The GitHub repository and npm package must both be public before an automated OIDC release to obtain provenance.
 
 The manually published bootstrap version will not have an OIDC provenance attestation.
 
