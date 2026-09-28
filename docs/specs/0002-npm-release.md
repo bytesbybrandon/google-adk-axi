@@ -1,6 +1,6 @@
 # Spec 0002: npm CI and Release
 
-Status: Implemented, pending local verification.
+Status: Implemented and bootstrapped on npm.
 
 Tier: Beta.
 
@@ -76,7 +76,11 @@ Publish the first beta package manually with interactive account authentication 
 
 Do not create or use a long-lived npm token for this bootstrap publish.
 
-After the package exists, configure the npm trusted publisher for `bytesbybrandon/google-adk-axi` and `npm-publish.yml`.
+The npm trusted publisher is configured for `bytesbybrandon/google-adk-axi` and `npm-publish.yml` with direct publishing allowed.
+
+The user manually published `google-adk-axi@0.1.0` on 2026-09-28 after local package verification, using interactive npm authentication and 2FA.
+
+The npm `beta` and `latest` dist-tags currently both point to `0.1.0`.
 
 Subsequent releases use the automated OIDC workflow.
 
@@ -123,7 +127,13 @@ The repository is public per the user's decision on 2026-09-28.
 
 The user intended to test the AXI locally before the first npm publication.
 
-The local package check remains pending, and this implementation did not publish the npm package.
+The user completed local package verification on Node.js 22.18.0 before publishing.
+
+The user approved and completed the manual `google-adk-axi@0.1.0` bootstrap publish on 2026-09-28.
+
+The npm `beta` and `latest` dist-tags both currently point to `0.1.0`.
+
+The GitHub Actions trusted publisher is configured for `bytesbybrandon/google-adk-axi` and `npm-publish.yml` with direct publishing allowed.
 
 The user approved implementation on 2026-09-27.
 
@@ -131,7 +141,9 @@ The GitHub repository and npm package must both be public before an automated OI
 
 The manually published bootstrap version will not have an OIDC provenance attestation.
 
-The first package version must be published manually before npm allows its trusted publisher to be configured.
+The first package version was published manually before npm allowed its trusted publisher to be configured.
+
+The next automated release must use a version that has not already been published to npm.
 
 ADR needed: No.
 
